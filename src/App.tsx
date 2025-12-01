@@ -1,12 +1,18 @@
+import { Provider } from "react-redux";
+import { ReduxCrudDemoPage } from "./pages";
+import { store } from "./store";
+
 /**
  * Основной компонент приложения, точка входа
  */
 function App() {
 	return (
-		<div>
-			<h1>App</h1>
-		</div>
-	)
+		<Provider store={store}>
+			<div className="app">
+				<ReduxCrudDemoPage />
+			</div>
+		</Provider>
+	);
 }
 
 export default App;

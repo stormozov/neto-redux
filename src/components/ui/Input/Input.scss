@@ -1,0 +1,199 @@
+.input {
+  // Базовые переменные по умолчанию
+  --padding: 0.6em 1.2em;
+  --bg: transparent;
+  --border-color: var(--neutral-border);
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 8px;
+  --text-color: var(--neutral-text);
+  --placeholder-color: var(--neutral-placeholder);
+  --focus-border-color: var(--role-border);
+  --focus-box-shadow: 0 0 0 2px var(--role-focus-shadow);
+  --adornment-size: 1.5em;
+
+  padding: var(--padding);
+  background-color: var(--bg);
+  border: var(--border-width) var(--border-style) var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+  font-family: inherit;
+  font-weight: 500;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &::placeholder {
+    color: var(--placeholder-color);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--focus-border-color);
+    box-shadow: var(--focus-box-shadow);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  // Variants
+  &--variant-default {
+    --bg: var(--role-bg);
+  }
+
+  &--variant-filled {
+    --bg: var(--role-filled-bg);
+  }
+
+  &--variant-outlined {
+    --bg: transparent;
+  }
+
+  &--variant-underlined {
+    --border-width: 0 0 1px 0;
+    --border-radius: 0;
+  }
+
+  // Roles
+  &--role-primary {
+    --neutral-border: #e0e0e0;
+    --neutral-text: #242424;
+    --neutral-placeholder: #7c7c7c;
+    --role-bg: #ffffff;
+    --role-filled-bg: #f8f8f8;
+    --role-border: #646cff;
+    --role-focus-shadow: rgba(100, 108, 255, 0.3);
+  }
+
+  &--role-secondary {
+    --neutral-border: #d0d0d0;
+    --neutral-text: #333333;
+    --neutral-placeholder: #999999;
+    --role-bg: #f5f5f5;
+    --role-filled-bg: #e9e9e9;
+    --role-border: #3a3a3a;
+    --role-focus-shadow: rgba(58, 58, 58, 0.3);
+  }
+
+  &--role-tertiary {
+    --neutral-border: #c0c0c0;
+    --neutral-text: #444444;
+    --neutral-placeholder: #a0a0a0;
+    --role-bg: #ffffff;
+    --role-filled-bg: #f0f0f0;
+    --role-border: #ff9800;
+    --role-focus-shadow: rgba(255, 152, 0, 0.3);
+  }
+
+  // Intents
+  &--intent-danger {
+    --border-color: #ff4d4d;
+    --focus-border-color: #ff4d4d;
+    --focus-box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.3);
+  }
+
+  &--intent-success {
+    --border-color: #4caf50;
+    --focus-border-color: #4caf50;
+    --focus-box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+  }
+
+  &--intent-warning {
+    --border-color: #ff9800;
+    --focus-border-color: #ff9800;
+    --focus-box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.3);
+  }
+
+  // Sizes
+  &--size-small {
+    font-size: 0.875rem;
+    --padding: 0.4em 0.8em;
+  }
+
+  &--size-medium {
+    font-size: 1rem;
+    --padding: 0.6em 1.2em;
+  }
+
+  &--size-large {
+    font-size: 1.125rem;
+    --padding: 0.8em 1.6em;
+  }
+
+  // Full width
+  &--full-width {
+    width: 100%;
+  }
+
+  // With adornments
+  &--with-start {
+    padding-left: calc(var(--padding) + var(--adornment-size));
+  }
+
+  &--with-end {
+    padding-right: calc(var(--padding) + var(--adornment-size));
+  }
+
+  &::placeholder {
+   font-weight: 400;
+   color: #b9b9b9;
+  }
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-label {
+  display: inline-block;
+  margin-bottom: 0.4em;
+  font-size: 0.9em;
+  font-weight: 400;
+  color: var(--neutral-placeholder, #7c7c7c);
+}
+
+.input-adornment-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-adornment {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  color: var(--neutral-placeholder, #7c7c7c);
+  pointer-events: none;
+
+  &--start {
+    left: 0.8em;
+  }
+
+  &--end {
+    right: 0.8em;
+  }
+}
+
+.input-helper {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-top: 0.4em;
+  font-size: 0.8em;
+
+  &__icon {
+    font-size: 1.1em;
+  }
+
+  &--danger {
+    color: #ff4d4d;
+  }
+
+  &--success {
+    color: #4caf50;
+  }
+
+  &--warning {
+    color: #ff9800;
+  }
+}

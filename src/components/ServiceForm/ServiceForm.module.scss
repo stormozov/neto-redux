@@ -1,0 +1,17 @@
+.service-form {
+  display: grid;
+  gap: 1rem;
+
+  &__editing {
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  &__actions {
+    display: flex;
+    justify-content: end;
+    gap: 0.6rem;
+  }
+}

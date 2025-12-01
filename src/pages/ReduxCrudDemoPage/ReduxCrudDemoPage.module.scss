@@ -1,0 +1,41 @@
+.demo-page {
+  padding: 2rem 0;
+
+  &__header {
+    margin-bottom: 2rem;
+  }
+
+  &__main {
+    display: grid;
+    gap: 1rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.6rem;
+  }
+}
+
+.services {
+  display: grid;
+  gap: 1rem;
+  font-size: 1rem;
+
+  &__header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.4em;
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    background-color: #3a3a3a;
+  }
+
+  &__total {
+    font-size: 0.9em;
+    color: #808080;
+  }
+}

@@ -2,14 +2,21 @@
   background-color: #242424;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-size: 16px;
   font-weight: 400;
+  letter-spacing: 0.03em;
   color: rgba(255, 255, 255, 0.87);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 a {
@@ -22,32 +29,27 @@ a {
   }
 }
 
+button {
+  cursor: pointer;
+  transition: 0.4s;
+
+  &:focus,
+  &:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+}
+
 h1 {
-  font-size: 3.2em;
+  font-size: 2em;
   line-height: 1.1;
 }
 
-button {
-  cursor: pointer;
-  transition: border-color 0.25s;
+ul, ol {
+  list-style: none;
+}
 
-  padding: 0.6em 1.2em;
-
-  background-color: #1a1a1a;
-  border: 1px solid transparent;
-  border-radius: 8px;
-
-  font-family: inherit;
-  font-size: 1em;
-  font-weight: 500;
-
-  &:hover {
-    border-color: #646cff;
-  }
-
-  &:focus,
-  &:focus-visible 
-  {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
+.container {
+  padding: 0 2rem;
+  margin: 0 auto;
+  max-width: 1280px;
 }

@@ -1,0 +1,38 @@
+.service-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1.4em;
+
+  &__content {
+    display: grid;
+    grid-template-columns: auto minmax(30px, 1fr) auto;
+    align-items: end;
+    gap: 1rem;
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    border: 1px dashed #5a5a5a;
+  }
+
+  &__actions {
+    position: relative;
+    display: flex;
+    padding-left: 0.6em;
+
+    &::before {
+      content: "";
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 1px;
+      height: 100%;
+
+      border-left: 1px solid #5a5a5a;
+    }
+  }
+}

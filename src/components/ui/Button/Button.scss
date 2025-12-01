@@ -1,0 +1,131 @@
+.btn {
+  // Базовые переменные по умолчанию
+  --padding: 0.6em 1.2em;
+  --bg: transparent;
+  --border: transparent;
+  --radius: 8px;
+  --text-color: #ffffff;
+
+  padding: var(--padding);
+
+  background-color: var(--bg);
+  border-color: var(--border);
+  border-radius: var(--radius);
+
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text-color);
+
+  // Appearance
+  &--appearance-filled {
+    --bg: var(--importance-bg);
+    --text-color: var(--importance-color);
+
+    &:not(:disabled):hover {
+      --bg: var(--importance-hover-bg);
+    }
+  }
+
+  &--appearance-outlined {
+    --bg: transparent;
+    --border: var(--importance-border);
+    --text-color: var(--importance-color);
+
+    &:not(:disabled):hover {
+      --bg: var(--importance-hover-bg, rgba(100, 108, 255, 0.1));
+    }
+  }
+
+  &--appearance-ghost {
+    --bg: transparent;
+    --text-color: var(--importance-color);
+
+    &:not(:disabled):hover {
+      --bg: var(--importance-hover-bg, rgba(100, 108, 255, 0.1));
+    }
+  }
+
+  &--appearance-text {
+    --bg: transparent;
+    --border: transparent;
+    --text-color: var(--importance-color);
+  }
+
+  // Importance
+  &--importance-primary {
+    --importance-bg: #646cff;
+    --importance-color: #ffffff;
+    --importance-border: #646cff;
+    --importance-hover-bg: #535bf2;
+  }
+
+  &--importance-secondary {
+    --importance-bg: #3a3a3a;
+    --importance-color: #ffffff;
+    --importance-border: #727272;
+    --importance-hover-bg: #555;
+  }
+
+  &--importance-tertiary {
+    --importance-bg: #ffffff;
+    --importance-color: #242424;
+    --importance-border: #3a3a3a;
+    --importance-hover-bg: #646cff;
+  }
+
+  // Intent
+  &--intent-danger {
+    --importance-bg: #ff4d4d;
+    --importance-color: #ffffff;
+    --importance-border: #ff4d4d;
+    --importance-hover-bg: #e04242;
+  }
+
+  &--intent-success {
+    --importance-bg: #4caf50;
+    --importance-color: #ffffff;
+    --importance-border: #4caf50;
+    --importance-hover-bg: #43a047;
+  }
+
+  // Position
+  &--position {
+    &-start {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    &-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-end {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+
+  // Size
+  &--size {
+    &-small {
+      font-size: 0.8rem;
+    }
+
+    &-medium {
+      font-size: inherit;
+    }
+
+    &-large {
+      font-size: 1.5rem;
+    }
+  }
+
+  // Icon
+  &--icon-only {
+    --padding: 0.6em;
+  }
+}

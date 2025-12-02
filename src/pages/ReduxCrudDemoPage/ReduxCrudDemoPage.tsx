@@ -9,7 +9,7 @@ import styles from "./ReduxCrudDemoPage.module.scss";
  */
 export default function ReduxCrudDemoPage() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const { total, clearForm, startEditing } = useServices();
+	const { total, clearForm, startEditing, deleteAllServices } = useServices();
 
 	const openModalForAdd = () => {
 		clearForm();
@@ -23,6 +23,11 @@ export default function ReduxCrudDemoPage() {
 
 	const closeModal = () => setIsModalOpen(false);
 
+	const handleDeleteAllServices = () => {
+		if (!window.confirm("Вы уверены, что хотите удалить все услуги?")) return;
+		deleteAllServices();
+	};
+
 	return (
 		<div className={styles["demo-page"]}>
 			<div className="container">
@@ -35,6 +40,11 @@ export default function ReduxCrudDemoPage() {
 				<main className={styles["demo-page__main"]}>
 					<div className={styles["demo-page__actions"]}>
 						<Button onClick={openModalForAdd}>Добавить услугу</Button>
+						{total > 0 && (
+							<Button importance="secondary" onClick={handleDeleteAllServices}>
+								Очистить список
+							</Button>
+						)}
 					</div>
 
 					<div className={styles.services}>

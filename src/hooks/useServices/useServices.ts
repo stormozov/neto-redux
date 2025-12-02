@@ -9,6 +9,7 @@ import {
 	addService as addServiceAction,
 	cancelEditing as cancelEditingAction,
 	clearForm as clearFormAction,
+	deleteAllServices as deleteAllServicesAction,
 	deleteService as deleteServiceAction,
 	setFormField as setFormFieldAction,
 	setValidationError as setValidationErrorAction,
@@ -73,6 +74,10 @@ export const useServices = (): UseServicesReturn => {
 		dispatch(deleteServiceAction(id));
 	};
 
+	const deleteAllServices = () => {
+		dispatch(deleteAllServicesAction());
+	};
+
 	const startEditing = (service: Service) => {
 		dispatch(startEditingAction(service));
 	};
@@ -97,6 +102,7 @@ export const useServices = (): UseServicesReturn => {
 		addService,
 		updateService,
 		deleteService,
+		deleteAllServices,
 		startEditing,
 		cancelEditing,
 		clearForm,

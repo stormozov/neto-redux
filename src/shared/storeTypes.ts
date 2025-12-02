@@ -3,6 +3,7 @@ import type {
 	ADD_SERVICE,
 	CANCEL_EDITING,
 	CLEAR_FORM,
+	DELETE_ALL_SERVICES,
 	DELETE_SERVICE,
 	SET_FORM_FIELD,
 	SET_VALIDATION_ERROR,
@@ -84,6 +85,15 @@ export interface DeleteServiceAction {
 }
 
 /**
+ * Экшен для удаления всех услуг.
+ * Генерируется при вызове {@link deleteAllServicesAction}.
+ */
+export interface DeleteAllServicesAction {
+	type: typeof DELETE_ALL_SERVICES;
+	// payload отсутствует
+}
+
+/**
  * Экшен для обновления одного из полей формы (название или цена).
  * Сбрасывает ошибку валидации для этого поля.
  * Генерируется при вызове {@link setFormFieldAction}.
@@ -149,6 +159,7 @@ export type ServicesFormAction =
 	| AddServiceAction
 	| UpdateServiceAction
 	| DeleteServiceAction
+	| DeleteAllServicesAction
 	| SetFormFieldAction
 	| StartEditingAction
 	| CancelEditingAction

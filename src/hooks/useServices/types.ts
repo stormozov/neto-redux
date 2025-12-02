@@ -80,6 +80,11 @@ export interface UseServicesActions {
 	updateService: (id: string, name: string, price: number) => void;
 
 	/**
+	 * Удаляет все услуги.
+	 */
+	deleteAllServices: () => void;
+	
+	/**
 	 * Удаляет услугу по её идентификатору.
    * 
 	 * @param {string} id Идентификатор удаляемой услуги.

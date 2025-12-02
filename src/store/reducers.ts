@@ -10,6 +10,7 @@ import {
 	ADD_SERVICE,
 	CANCEL_EDITING,
 	CLEAR_FORM,
+	DELETE_ALL_SERVICES,
 	DELETE_SERVICE,
 	SET_FORM_FIELD,
 	SET_VALIDATION_ERROR,
@@ -60,6 +61,9 @@ const servicesReducer = (
 					(item: Service) => item.id !== action.payload.id,
 				),
 			};
+
+		case DELETE_ALL_SERVICES:
+			return { ...state, items: [] };
 
 		default:
 			return state;

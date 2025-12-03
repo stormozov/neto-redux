@@ -3,11 +3,8 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { FaTimes } from "react-icons/fa";
 import "./Modal.scss";
-import type { FocusableElement, ModalProps } from "./types";
 import { Button } from "../Button";
-
-export const FOCUSABLE_SELECTOR =
-	'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+import type { ModalProps } from "./types";
 
 /**
  * Компонент, предоставляющий модальное окно.
@@ -23,61 +20,53 @@ export default function Modal({
 	showCloseButton = true,
 	"aria-label": ariaLabel = "Modal dialog",
 }: ModalProps) {
-	const modalRef = useRef<HTMLDivElement>(null);
+	const dialogRef = useRef<HTMLDialogElement>(null);
 	const previousFocusedElement = useRef<HTMLElement | null>(null);
 
-	// Управление прокруткой и фокусом
 	useEffect(() => {
 		if (!isOpen) return;
 
 		previousFocusedElement.current = document.activeElement as HTMLElement;
-		document.body.style.overflow = "hidden";
 
-		// Фокус на первый фокусируемый элемент внутри модального окна
-		if (modalRef.current) {
-			const focusableElements =
-				modalRef.current.querySelectorAll<FocusableElement>(FOCUSABLE_SELECTOR);
-			if (focusableElements.length > 0) {
-				(focusableElements[0] as HTMLElement).focus();
-			} else {
-				// Если нет фокусируемых — сам контейнер получает фокус
-				modalRef.current.focus();
-			}
+		const dialog = dialogRef.current;
+		if (dialog) {
+			dialog.showModal();
+			document.body.style.overflow = "hidden";
 		}
 
 		return () => {
+			dialog?.close();
 			document.body.style.overflow = "";
-			if (previousFocusedElement.current) {
-				previousFocusedElement.current.focus();
-			}
+			previousFocusedElement.current?.focus();
 		};
 	}, [isOpen]);
 
-	const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === "Escape") onClose();
+	const handleOverlayClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+		if (closeOnOverlayClick && e.target === dialogRef.current) {
+			onClose();
+		}
+	};
+
+	const handleDialogKeyDown = (e: React.KeyboardEvent<HTMLDialogElement>) => {
+		if (e.key === "Escape") {
+			e.preventDefault();
+			onClose();
+		}
 	};
 
 	if (!isOpen) return null;
 
 	return createPortal(
-		<div
-			className={classNames("modal-overlay", overlayClassName)}
-			onClick={closeOnOverlayClick ? () => onClose() : undefined}
-			aria-hidden="true"
+		<dialog
+			ref={dialogRef}
+			className={classNames("modal-dialog", overlayClassName)}
+			onKeyDown={handleDialogKeyDown}
+			onClick={handleOverlayClick}
+			onClose={onClose}
+			aria-label={ariaLabel}
 		>
-			{/* Семантически корректный диалог */}
-			<div
-				ref={modalRef}
-				{...{
-					role: "dialog",
-					"aria-modal": "true",
-					"aria-label": ariaLabel,
-					className: classNames("modal-content", contentClassName),
-					onClick: (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation(),
-					onKeyDown: handleKeyDown,
-					tabIndex: -1,
-				}}
-			>
+			<div className={"modal-overlay"}></div>
+			<div className={classNames("modal-content", contentClassName)}>
 				{showCloseButton && (
 					<Button
 						className="modal-close-button"
@@ -91,7 +80,7 @@ export default function Modal({
 				)}
 				<div className={classNames("modal-body", className)}>{children}</div>
 			</div>
-		</div>,
+		</dialog>,
 		document.body,
 	);
 }

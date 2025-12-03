@@ -39,6 +39,7 @@ export const Input: React.FC<InputProps> = ({
 	error = false,
 	startAdornment,
 	endAdornment,
+	ref,
 	fullWidth = true,
 	...rest
 }) => {
@@ -94,7 +95,13 @@ export const Input: React.FC<InputProps> = ({
 					</span>
 				)}
 
-				<input id={inputId} className={inputClass} type={type} {...rest} />
+				<input
+					id={inputId}
+					className={inputClass}
+					ref={ref}
+					type={type}
+					{...rest}
+				/>
 
 				{endAdornment && (
 					<span className="input-adornment input-adornment--end">

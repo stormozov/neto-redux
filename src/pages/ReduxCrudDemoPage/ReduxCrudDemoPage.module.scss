@@ -12,7 +12,31 @@
 
   &__actions {
     display: flex;
+    justify-content: flex-end;
     gap: 0.6rem;
+    
+    @media (max-width: 600px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__add-button,
+  &__clear-button
+  {
+    flex: 0 0 auto;
+
+    @media (max-width: 600px) {
+      flex: 1 1 calc(50% - 0.3rem);
+      min-width: 0;
+    }
+  }
+
+  &__search-filter {
+    flex: 1 1 auto;
+
+    @media (max-width: 600px) {
+      flex: 1 1 100%;
+    }
   }
 }
 
@@ -34,8 +58,16 @@
     background-color: #3a3a3a;
   }
 
-  &__total {
+  &__total-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+
     font-size: 0.9em;
     color: #808080;
+  }
+
+  &__total {
+    color: inherit
   }
 }

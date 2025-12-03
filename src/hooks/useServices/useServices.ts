@@ -1,22 +1,29 @@
 import type { Service } from "@shared/storeTypes";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	selectForm,
-	selectServicesItems,
-	selectTotal,
-} from "@/store/selectors";
-import {
 	addService as addServiceAction,
 	cancelEditing as cancelEditingAction,
 	clearForm as clearFormAction,
+	clearSearch as clearSearchAction,
 	deleteAllServices as deleteAllServicesAction,
 	deleteService as deleteServiceAction,
 	setFormField as setFormFieldAction,
+	setSearchTerm as setSearchTermAction,
 	setValidationError as setValidationErrorAction,
 	startEditing as startEditingAction,
 	updateService as updateServiceAction,
-} from "../../store/actions";
-import type { UseServicesReturn } from "./types";
+} from "@/store/actions";
+import {
+	selectFilteredServices,
+	selectFilterStats,
+	selectForm,
+	selectHasActiveSearch,
+	selectIsEmptyResult,
+	selectSearchTerm,
+	selectServicesItems,
+	selectTotal,
+} from "@/store/selectors";
+import type { FormFields, UseServicesReturn } from "./types";
 
 /**
  * Кастомный React-хук для управления списком услуг и связанной формой
@@ -52,13 +59,29 @@ export const useServices = (): UseServicesReturn => {
 
 	// Данные
 	const items = useSelector(selectServicesItems);
-	const form = useSelector(selectForm);
+	const { name, price, editingId, errors } = useSelector(selectForm);
 	const total = useSelector(selectTotal);
+	const filteredItems = useSelector(selectFilteredServices);
+	const { found } = useSelector(selectFilterStats);
+	const searchTerm = useSelector(selectSearchTerm);
+	const isEmptyResult = useSelector(selectIsEmptyResult);
+	const hasActiveSearch = useSelector(selectHasActiveSearch);
 
 	const data = {
+		// Список услуг
 		items,
-		...form,
+		filteredItems,
+		// Форма
+		name,
+		price,
+		editingId,
+		errors,
+		// Фильтрация
 		total,
+		found,
+		searchTerm,
+		isEmptyResult,
+		hasActiveSearch,
 	};
 
 	// Методы для управления
@@ -90,12 +113,20 @@ export const useServices = (): UseServicesReturn => {
 		dispatch(clearFormAction());
 	};
 
-	const setFormField = (field: "name" | "price", value: string) => {
+	const setFormField = (field: FormFields, value: string) => {
 		dispatch(setFormFieldAction(field, value));
 	};
 
 	const setValidationError = (field: string, error: string) => {
 		dispatch(setValidationErrorAction(field, error));
+	};
+
+	const setSearchTerm = (term: string) => {
+		dispatch(setSearchTermAction(term));
+	};
+
+	const clearSearch = () => {
+		dispatch(clearSearchAction());
 	};
 
 	const actions = {
@@ -108,6 +139,8 @@ export const useServices = (): UseServicesReturn => {
 		clearForm,
 		setFormField,
 		setValidationError,
+		setSearchTerm,
+		clearSearch,
 	};
 
 	return { ...data, ...actions };

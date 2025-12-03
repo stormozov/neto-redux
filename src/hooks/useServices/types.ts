@@ -14,7 +14,6 @@ export type UseServicesReturn = UseServicesData & UseServicesActions;
  * услуги.
  *
  * Используется для типобезопасного обновления отдельных полей формы
- * (например, через {@link UseServicesActions.setFormField}).
  */
 export type FormFields = "name" | "price";
 
@@ -31,6 +30,9 @@ export type FormFields = "name" | "price";
 export interface UseServicesData {
 	/** Массив всех доступных услуг. */
 	items: Service[];
+
+	/** Массив услуг, отфильтрованный по текущему состоянию поиска. */
+	filteredItems: Service[];
 
 	/** Текущее значение поля "Название" в форме. */
 	name: string;
@@ -52,6 +54,18 @@ export interface UseServicesData {
 
 	/** Общее количество услуг (агрегированное значение из состояния). */
 	total: number;
+
+	/** Количество найденных услуг (агрегированное значение из состояния). */
+	found: number;
+
+	/** Текущее значение поля поиска. */
+	searchTerm: string;
+
+	/** Флаг, указывающий на наличие пустого результата поиска. */
+	isEmptyResult: boolean;
+
+	/** Флаг, указывающий на наличие активного поиска. */
+	hasActiveSearch: boolean;
 }
 
 /**
@@ -62,70 +76,82 @@ export interface UseServicesData {
  * иммутабельное обновление глобального состояния.
  */
 export interface UseServicesActions {
-	/**
-	 * Добавляет новую услугу в список.
-   * 
-	 * @param {string} name Название услуги.
-	 * @param {number} price Стоимость услуги (число).
-	 */
-	addService: (name: string, price: number) => void;
+		/**
+		 * Добавляет новую услугу в список.
+		 *
+		 * @param {string} name Название услуги.
+		 * @param {number} price Стоимость услуги (число).
+		 */
+		addService: (name: string, price: number) => void;
 
-	/**
-	 * Обновляет существующую услугу по её идентификатору.
-   * 
-	 * @param {string} id Идентификатор обновляемой услуги.
-	 * @param {string} name Новое название услуги.
-	 * @param {number} price Новая стоимость услуги (число).
-	 */
-	updateService: (id: string, name: string, price: number) => void;
+		/**
+		 * Обновляет существующую услугу по её идентификатору.
+		 *
+		 * @param {string} id Идентификатор обновляемой услуги.
+		 * @param {string} name Новое название услуги.
+		 * @param {number} price Новая стоимость услуги (число).
+		 */
+		updateService: (id: string, name: string, price: number) => void;
 
-	/**
-	 * Удаляет все услуги.
-	 */
-	deleteAllServices: () => void;
-	
-	/**
-	 * Удаляет услугу по её идентификатору.
-   * 
-	 * @param {string} id Идентификатор удаляемой услуги.
-	 */
-	deleteService: (id: string) => void;
+		/**
+		 * Удаляет все услуги.
+		 */
+		deleteAllServices: () => void;
 
-	/**
-	 * Запускает режим редактирования для указанной услуги.
-	 * Заполняет форму её текущими данными и устанавливает 
-   * {@link UseServicesData.editingId}.
-   * 
-	 * @param {Service} service Объект услуги, которую требуется отредактировать.
-	 */
-	startEditing: (service: Service) => void;
+		/**
+		 * Удаляет услугу по её идентификатору.
+		 *
+		 * @param {string} id Идентификатор удаляемой услуги.
+		 */
+		deleteService: (id: string) => void;
 
-	/**
-	 * Отменяет текущий режим редактирования и сбрасывает форму к пустому 
-   * состоянию.
-	 */
-	cancelEditing: () => void;
+		/**
+		 * Запускает режим редактирования для указанной услуги.
+		 * Заполняет форму её текущими данными и устанавливает
+		 * {@link UseServicesData.editingId}.
+		 *
+		 * @param {Service} service Объект услуги, которую требуется отредактировать.
+		 */
+		startEditing: (service: Service) => void;
 
-	/**
-	 * Полностью очищает форму (поля и ошибки валидации).
-	 */
-	clearForm: () => void;
+		/**
+		 * Отменяет текущий режим редактирования и сбрасывает форму к пустому
+		 * состоянию.
+		 */
+		cancelEditing: () => void;
 
-	/**
-	 * Обновляет значение одного из полей формы.
-   * 
-	 * @param {FormFields} field Имя поля ({@link FormFields}).
-	 * @param {string} value Новое значение поля (всегда передаётся как строка).
-	 */
-	setFormField: (field: FormFields, value: string) => void;
+		/**
+		 * Полностью очищает форму (поля и ошибки валидации).
+		 */
+		clearForm: () => void;
 
-	/**
-	 * Устанавливает или сбрасывает сообщение об ошибке для указанного поля.
-   * 
-	 * @param {string} field Имя поля (может выходить за пределы 
-   * {@link FormFields}).
-	 * @param {string} error Сообщение об ошибке. Если строка пустая 
-   * или `undefined` — ошибка считается сброшенной.
-	 */
-	setValidationError: (field: string, error: string) => void;
-}
+		/**
+		 * Обновляет значение одного из полей формы.
+		 *
+		 * @param {FormFields} field Имя поля ({@link FormFields}).
+		 * @param {string} value Новое значение поля (всегда передаётся как строка).
+		 */
+		setFormField: (field: FormFields, value: string) => void;
+
+		/**
+		 * Устанавливает или сбрасывает сообщение об ошибке для указанного поля.
+		 *
+		 * @param {string} field Имя поля (может выходить за пределы
+		 * {@link FormFields}).
+		 * @param {string} error Сообщение об ошибке. Если строка пустая
+		 * или `undefined` — ошибка считается сброшенной.
+		 */
+		setValidationError: (field: string, error: string) => void;
+
+		/**
+		 * Обновляет значение поля поиска.
+		 *
+		 * @param {string} term Новое значение поля поиска.
+		 */
+		setSearchTerm: (term: string) => void;
+
+		/**
+		 * Очищает значение поля поиска.
+		 */
+		clearSearch: () => void;
+	}

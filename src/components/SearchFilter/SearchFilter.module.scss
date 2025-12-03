@@ -1,0 +1,31 @@
+.search-filter {
+  &__input-wrapper {
+    position: relative;
+  }
+
+  &__input {
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+
+    color: #999;
+    
+    cursor: pointer;
+    transform: translateY(-50%);
+
+    &:hover {
+      color: #666;
+    }
+
+    &:focus {
+      outline: none;
+      color: #333;
+    }
+  }
+}

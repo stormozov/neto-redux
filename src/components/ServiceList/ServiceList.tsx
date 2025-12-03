@@ -14,7 +14,8 @@ interface IServiceListProps {
  * Компонент, представляющий список услуг.
  */
 export default function ServiceList({ onEdit }: IServiceListProps) {
-	const { items, total, editingId, clearForm, deleteService } = useServices();
+	const { filteredItems, total, editingId, clearForm, deleteService } =
+		useServices();
 
 	const handleDelete = (id: string, name: string) => {
 		const confirm = window.confirm(`Удалить услугу «${name}»?`);
@@ -23,16 +24,25 @@ export default function ServiceList({ onEdit }: IServiceListProps) {
 		if (editingId === id) clearForm?.();
 	};
 
+	
 	if (total === 0) {
 		return (
 			<p className={styles["service-list-empty"]}>Нет добавленных услуг</p>
 		);
 	}
-
+	
+	if (filteredItems.length === 0) {
+		return (
+			<p className={styles["service-list-empty"]}>
+				Нет услуг, соответствующих фильтру
+			</p>
+		);
+	}
+	
 	return (
 		<div className={styles["service-list"]}>
 			<ul className={styles["service-list__list"]}>
-				{items.map((service) => (
+				{filteredItems.map((service) => (
 					<li key={service.id} className={styles["service-list__item"]}>
 						<ServiceItem
 							service={service}

@@ -3,9 +3,11 @@ import type {
 	ADD_SERVICE,
 	CANCEL_EDITING,
 	CLEAR_FORM,
+	CLEAR_SEARCH,
 	DELETE_ALL_SERVICES,
 	DELETE_SERVICE,
 	SET_FORM_FIELD,
+	SET_SEARCH_TERM,
 	SET_VALIDATION_ERROR,
 	START_EDITING,
 	UPDATE_SERVICE,
@@ -33,6 +35,10 @@ export interface FormState {
 	};
 }
 
+export interface FilterState {
+	searchTerm: string;
+}
+
 /**
  * Интерфейс, описывающий состояние услуг
  */
@@ -46,6 +52,7 @@ export interface ServicesState {
 export interface RootState {
 	services: ServicesState;
 	form: FormState;
+	filter: FilterState;
 }
 
 /**
@@ -148,6 +155,18 @@ export interface SetValidationErrorAction {
 	};
 }
 
+export interface SetSearchTermAction {
+	type: typeof SET_SEARCH_TERM;
+	payload: {
+		searchTerm: string;
+	};
+}
+
+export interface ClearSearchAction {
+	type: typeof CLEAR_SEARCH;
+	// payload отсутствует
+}
+
 /**
  * Объединённый тип всех экшенов, связанных с управлением услугами и формой
  * редактирования.
@@ -164,4 +183,6 @@ export type ServicesFormAction =
 	| StartEditingAction
 	| CancelEditingAction
 	| ClearFormAction
-	| SetValidationErrorAction;
+	| SetValidationErrorAction
+	| SetSearchTermAction
+	| ClearSearchAction;

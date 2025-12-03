@@ -89,6 +89,11 @@ export interface InputProps
 	endAdornment?: ReactNode;
 
 	/**
+	 * Ссылка на элемент, который должен получить фокус при клике на поле ввода.
+	 */
+	ref?: React.Ref<HTMLInputElement>;
+
+	/**
 	 * Если `true`, поле ввода растягивается на всю ширину контейнера.
 	 *
 	 * @default true

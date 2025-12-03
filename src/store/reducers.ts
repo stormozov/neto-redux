@@ -1,4 +1,5 @@
 import type {
+	FilterState,
 	FormState,
 	Service,
 	ServicesFormAction,
@@ -10,9 +11,11 @@ import {
 	ADD_SERVICE,
 	CANCEL_EDITING,
 	CLEAR_FORM,
+	CLEAR_SEARCH,
 	DELETE_ALL_SERVICES,
 	DELETE_SERVICE,
 	SET_FORM_FIELD,
+	SET_SEARCH_TERM,
 	SET_VALIDATION_ERROR,
 	START_EDITING,
 	UPDATE_SERVICE,
@@ -28,6 +31,10 @@ const initialFormState: FormState = {
 	price: "",
 	editingId: null,
 	errors: {},
+};
+
+const initialFilterState: FilterState = {
+	searchTerm: "",
 };
 
 // Редьюсеры состояний
@@ -104,8 +111,31 @@ const formReducer = (
 	}
 };
 
+const filterReducer = (
+	state = initialFilterState,
+	action: ServicesFormAction,
+): FilterState => {
+	switch (action.type) {
+		case SET_SEARCH_TERM:
+			return {
+				...state,
+				searchTerm: action.payload.searchTerm,
+			};
+
+		case CLEAR_SEARCH:
+			return {
+				...state,
+				searchTerm: "",
+			};
+
+		default:
+			return state;
+	}
+};
+
 // Объединение редьюсеров
 export const rootReducer = combineReducers({
 	services: servicesReducer,
 	form: formReducer,
+	filter: filterReducer,
 });

@@ -1,6 +1,9 @@
 import { store } from "../store";
 import { setValidationError } from "../store/actions";
 
+/**
+ * Утилита для валидации формы
+ */
 export const validateForm = (name: string, price: string): boolean => {
 	let isValid = true;
 	const dispatch = store.dispatch;

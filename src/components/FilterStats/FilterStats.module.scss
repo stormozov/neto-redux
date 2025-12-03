@@ -1,0 +1,12 @@
+.filter-stats {
+  &__text {
+    font-size: inherit;
+    color: inherit;
+  }
+
+  &__not-found {
+    font-size: inherit;
+    font-weight: 500;
+    color: #ff6b6b;
+  }
+}

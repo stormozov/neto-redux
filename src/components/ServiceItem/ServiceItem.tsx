@@ -1,4 +1,4 @@
-import type { Service } from "@shared/interfaces";
+import type { Service } from "@shared/storeTypes";
 import { formatNumberWithSpaces } from "@utils";
 import { FaTimes } from "react-icons/fa";
 import { Button } from "../ui";

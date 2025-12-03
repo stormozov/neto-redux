@@ -1,4 +1,4 @@
-import { useServices } from "@/hooks";
+import { useServices } from "@hooks";
 import classNames from "classnames";
 import styles from "./FilterStats.module.scss";
 

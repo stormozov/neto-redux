@@ -1,28 +1,32 @@
-import { useServices } from "@hooks";
+import { useDebouncedSearch } from "@hooks";
 import { useRef } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { LiaTimesSolid } from "react-icons/lia";
 import { Button, Input } from "../ui";
 import styles from "./SearchFilter.module.scss";
 
 interface SearchFilterProps {
 	className?: string;
+	delay?: number;
 }
 
-export default function SearchFilter({ className = "" }: SearchFilterProps) {
-	const { searchTerm, setSearchTerm, clearSearch } = useServices();
+function SearchFilter({ className = "", delay = 300 }: SearchFilterProps) {
+	const { inputValue, handleChange, handleClear, isSearching } =
+		useDebouncedSearch(delay);
+
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchTerm(e.target.value);
+	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		handleChange(e.target.value);
 	};
 
-	const handleClear = () => {
-		clearSearch();
+	const onClearClick = () => {
+		handleClear();
 		inputRef.current?.focus();
 	};
 
-	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === "Escape") handleClear();
+	const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Escape") onClearClick();
 	};
 
 	return (
@@ -33,19 +37,28 @@ export default function SearchFilter({ className = "" }: SearchFilterProps) {
 					className={styles["search-filter__input"]}
 					id="service-search"
 					placeholder="Поиск услуг..."
-					value={searchTerm}
+					value={inputValue}
 					ref={inputRef}
 					fullWidth
-					onChange={handleChange}
-					onKeyDown={handleKeyDown}
+					onChange={onInputChange}
+					onKeyDown={onKeyDown}
 				/>
-				{searchTerm && (
+
+				{isSearching && (
+					<div className={styles["search-filter__spinner-wrapper"]}>
+						<AiOutlineLoading3Quarters
+							className={styles["search-filter__spinner"]}
+						/>
+					</div>
+				)}
+
+				{inputValue && !isSearching && (
 					<Button
 						className={styles["search-filter__clear"]}
 						appearance="text"
 						aria-label="Очистить поиск"
 						title="Очистить поиск"
-						onClick={handleClear}
+						onClick={onClearClick}
 					>
 						<LiaTimesSolid />
 					</Button>
@@ -54,3 +67,5 @@ export default function SearchFilter({ className = "" }: SearchFilterProps) {
 		</div>
 	);
 }
+
+export default SearchFilter;

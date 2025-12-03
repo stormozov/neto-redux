@@ -9,13 +9,29 @@
     }
   }
 
+  &__spinner-wrapper {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    line-height: 0;
+  }
+
+  &__spinner {
+    font-size: 16px;
+    color: #007bff;
+    animation: rotate 1s infinite linear;
+    display: inline-block;
+  }
+
   &__clear {
     position: absolute;
     right: 12px;
     top: 50%;
 
     color: #999;
-    
+
     cursor: pointer;
     transform: translateY(-50%);
 
@@ -27,5 +43,14 @@
       outline: none;
       color: #333;
     }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
